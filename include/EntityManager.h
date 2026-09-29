@@ -25,6 +25,8 @@ inline void UpdateEntityPositions(std::vector<Entity>& entities, float boundWidt
         e._position.y += e._velocity.y * dt;
         if(e._position.x < 0 || e._position.x > boundWidth) e._velocity.x *= -1;
         if(e._position.y < 0 || e._position.y > boundHeight) e._velocity.y *= -1;
+
+        e._colliding = false;
     }
 }
 

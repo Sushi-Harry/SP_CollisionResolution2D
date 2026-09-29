@@ -71,7 +71,7 @@ void QuadTree::QueryRange(AABB range, std::vector<Entity>& found, int &checksPer
             found.push_back(p);
     }
     // if the screen is further subdivided then call this function recursively to check other subdivisions
-    if(!_subdivided){
+    if(_subdivided){
         _00->QueryRange(range, found, checksPerformed);
         _10->QueryRange(range, found, checksPerformed);
         _01->QueryRange(range, found, checksPerformed);

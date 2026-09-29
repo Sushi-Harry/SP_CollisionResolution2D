@@ -1,8 +1,8 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -fopenmp -Iinclude
-LDFLAGS = -Iinclude -Iinclude/imgui -Llib -lraylib -lopengl32 -lgdi32 -lwinmm
+CXXFLAGS = -std=c++17 -Iinclude
+LDFLAGS = -Iinclude -Llib -lraylib -lopengl32 -lgdi32 -lwinmm
 
-SRCS = main.cpp $(wildcard include/*.cpp) include/imgui/imgui*.cpp include/imgui/rlImGui.cpp
+SRCS = main.cpp $(wildcard include/*.cpp)
 TARGET = main.exe
 
 all:

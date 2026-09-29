@@ -37,6 +37,8 @@ struct Entity{
     Vec2 _position;
     Vec2 _velocity;
     double _radius;
+
+    bool _colliding = false;
 };
 
 #endif

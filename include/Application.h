@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include "Rendering.h"
+#include <vector>
+#include "SpatialTypes.h"
 
 class Application{
 public:
@@ -14,6 +16,7 @@ public:
 private:
     
     Renderer *_renderer;
+    std::vector<Entity> _entities; 
     uint32_t _width, _height;
 };
 

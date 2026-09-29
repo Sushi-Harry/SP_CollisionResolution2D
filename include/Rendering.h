@@ -1,7 +1,6 @@
 #ifndef RENDERING_H
 #define RENDERING_H
 
-#include <cstdint>
 #include <vector>
 #include "SpatialTypes.h"
 

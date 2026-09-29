@@ -4,7 +4,7 @@
 #include <vector>
 
 // Unnecessarily sleepy right now. Took me 10+ minutes to write this simple function. That's how sleepy I am right now.
-int RunBruteForceCollisionCheck(const std::vector<Entity>& entities, int &outCheckCount){
+int RunBruteForceCollisionCheck(std::vector<Entity>& entities, int &outCheckCount){
     int collisions = 0;
     outCheckCount = 0;
 
@@ -18,6 +18,8 @@ int RunBruteForceCollisionCheck(const std::vector<Entity>& entities, int &outChe
             float rsum = entities[i]._radius + entities[j]._radius;
             if(distSq <= rsum*rsum){
                 collisions++;
+                entities[i]._colliding = true;
+                entities[j]._colliding = true;
             }
         }
     }
