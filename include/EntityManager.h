@@ -12,7 +12,7 @@ inline void SpawnEntities(std::vector<Entity>& entities, uint32_t count, float b
             ._id = i,
             ._position = { (float)(rand() % (int)boundWidth), (float)(rand() % (int)boundHeight) },
             ._velocity = { ((float)(rand() % 200) - 100.0F),  ((float)(rand() % 200) - 100.0F) },
-            ._radius = 4.0F,
+            ._radius = 10.0F,
         };
 
         entities.push_back(e);

@@ -13,7 +13,7 @@ Application::~Application(){
 
 void Application::Run(){
     // Sample entity data here
-    SpawnEntities(_entities, 10, 1280, 720);
+    SpawnEntities(_entities, 100, 1280, 720);
     while(!WindowShouldClose()){
         float dt = GetFrameTime();
         UpdateEntityPositions(_entities, 1280, 720, dt);

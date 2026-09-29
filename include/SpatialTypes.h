@@ -40,5 +40,4 @@ struct Entity{
 
     bool _colliding = false;
 };
-
 #endif

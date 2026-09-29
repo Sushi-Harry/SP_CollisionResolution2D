@@ -15,7 +15,7 @@ void Renderer::Draw(std::vector<Entity>& entities){
         ClearBackground(RAYWHITE);
         // Drawing entities with this loop.
         for(auto &e : entities){
-            if(e._colliding){
+            if(!e._colliding){
                 DrawCircle((int)e._position.x, (int)e._position.y, e._radius, BLACK);
             }else{
                 DrawCircle((int)e._position.x, (int)e._position.y, e._radius, RED);
