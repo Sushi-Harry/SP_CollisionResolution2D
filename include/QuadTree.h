@@ -4,26 +4,38 @@
 #include "SpatialTypes.h"
 #include <vector>
 
+struct QuadTreeNode{
+    AABB _boundary;
+    std::vector<Entity*> _entities;
+    bool _subdivided = false;
+    /*
+        Il s'agit de l'index du premier enfant issu de la subdivision en quatre du quadtree actuel dans le pool de nœuds.
+        Este es el índice del primer hijo de la subdivisión actual en cuatro partes del árbol cuaternario (quadtree) en el grupo de nodos (Node Pool).
+        This is the index of the first child resulting from the current four-part subdivision of the quadtree within the node pool.
+    */
+    int _firstChild = -1;
+};
+
 class QuadTree{
 public:
-    QuadTree(AABB boundary) : _boundary(boundary) {}
-    ~QuadTree() { Clear(); }
+    QuadTree(AABB boundary, int maxNodes = 10000);
+    ~QuadTree() = default;
 
     void Clear();
-    void SubDivide();
-    bool Insert(Entity &e);
-    void QueryRange(AABB range, std::vector<Entity>& found, int &checksPerformed) const;
+    bool Insert(Entity *e);
+    void QueryRange(AABB range, std::vector<Entity*>& found, int &checksPerformed) const;
+
 private:
     static const int _CAPACITY = 4;
-    AABB _boundary;
-    std::vector<Entity> _entities;
-    bool _subdivided = false;
+    AABB _rootBoundary;
 
-    // These are the base subdivisions
-    QuadTree* _00 = nullptr;
-    QuadTree* _10 = nullptr;
-    QuadTree* _11 = nullptr;
-    QuadTree* _01 = nullptr;
+    std::vector<QuadTreeNode> _nodes;
+    int _nextNodeIdx = 0;
+
+    void SubDivide(int nodeIdx);
+    bool InsertAtNode(int nodeIdx, Entity* e);
+    void QueryAtNode(int nodeIdx, AABB range, std::vector<Entity*>& found, int& checksPerformed) const;
+
 };
 
 // Here's what each subdivision refers to

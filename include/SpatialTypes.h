@@ -8,6 +8,7 @@
 struct Vec2{
     double x;
     double y;
+    Vec2() = default;
     Vec2(double x, double y) : x(x), y(y) {}
     double Length() const { return  sqrt(pow(x, 2.0) + pow(y, 2.0)); }
 };
@@ -16,6 +17,8 @@ struct Vec2{
 struct AABB {
     Vec2 _center;
     Vec2 _halfDimension;
+
+    AABB() = default;
 
     bool containsPoint(const Vec2& P) const {
         return (P.x >= _center.x - _halfDimension.x && P.x <= _center.x + _halfDimension.x &&
