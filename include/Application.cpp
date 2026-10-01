@@ -42,7 +42,15 @@ void Application::Run(){
         int colCheck = 0;
         // int collisionCount = RunBruteForceCollisionCheck(_entities, colCheck);
         int collisionCount = RunQuadTreeCollisionCheck(_entities, *_qTree, colCheck);
-
-        _renderer->Draw(_entities);
+        //    __
+        //   | |
+        //   | |
+        // __| |__
+        // \ \/ /
+        //  \_/
+        // This has to be modified later cause it always draws grid. And that is not okay. Grid drawing has to be the user's choice
+        std::vector<AABB> activeBounds;
+        _qTree->GetActiveBounds(activeBounds);
+        _renderer->Draw(_entities, activeBounds, colCheck, true);
     }
 }

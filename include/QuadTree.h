@@ -25,7 +25,11 @@ public:
     bool Insert(Entity *e);
     void QueryRange(AABB range, std::vector<Entity*>& found, int &checksPerformed) const;
 
+    void GetActiveBounds(std::vector<AABB>& bounds) const;
+
 private:
+    void GetActiveBoundsAtNode(int nodeIdx, std::vector<AABB>& bounds) const;
+
     static const int _CAPACITY = 4;
     AABB _rootBoundary;
 

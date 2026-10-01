@@ -101,3 +101,21 @@ void QuadTree::QueryAtNode(int nodeIdx, AABB range, std::vector<Entity*>& found,
         QueryAtNode(node._firstChild + 3, range, found, checksPerformed);
     }
 }
+
+// Helper Functions
+void QuadTree::GetActiveBounds(std::vector<AABB>& bounds) const {
+    GetActiveBoundsAtNode(0, bounds);
+}
+
+void QuadTree::GetActiveBoundsAtNode(int nodeIdx, std::vector<AABB>& bounds) const {
+    const QuadTreeNode& node = _nodes[nodeIdx];
+
+    bounds.push_back(node._boundary);
+
+    if(node._subdivided){
+        GetActiveBoundsAtNode(node._firstChild + 0, bounds);
+        GetActiveBoundsAtNode(node._firstChild + 1, bounds);
+        GetActiveBoundsAtNode(node._firstChild + 2, bounds);
+        GetActiveBoundsAtNode(node._firstChild + 3, bounds);
+    }
+}

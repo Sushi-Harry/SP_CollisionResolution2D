@@ -9,8 +9,10 @@ public:
     Renderer(const char* title, uint32_t width, uint32_t height);
     ~Renderer();
 
-    void Draw(std::vector<Entity>& entities);
+    void Draw(std::vector<Entity>& entities, std::vector<AABB>& treeBounds, int checkCount, bool showGrid);
+
 private:
+    void DrawGUI(std::vector<Entity>& entities, std::vector<AABB>& treeBounds, int checkCount, bool showGrid);
 };
 
 #endif

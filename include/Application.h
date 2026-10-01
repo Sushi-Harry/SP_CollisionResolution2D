@@ -18,7 +18,7 @@ public:
 private:
     
     Renderer *_renderer;
-    std::vector<Entity> _entities; 
+    std::vector<Entity> _entities;
     AABB *_worldBounds;
     QuadTree *_qTree;
     uint32_t _width, _height;
