@@ -52,3 +52,12 @@ Calling ``` new QuadTree({...}) ``` every frame is not a good idea for an applic
 
 __But Why is it bad?__<br />
 It's bad because everytime I call ```new``` I'm asking the system to find new memory on the heap which is not a fast process. At around 2000 entities, there will be at least hundreds (insert a thinking emoji here) of ```new``` and ```delete``` calls every single frame. That will lead to a major drop in performance because of just bad memory usage practices. 
+
+### 3 October, 2026
+Current Progress: __Quad Trees__ are done as far as I'm concerned. A little bit of GUI work is definitely needed. I might use rlImGui later but for now I'll just work with what I got.
+
+__Next on the list:__ <br />
+1. Spatial Hash Grids
+2. Bounding Volume Hierarchy
+3. R-Trees
+4. Loose Quad Tree
