@@ -6,6 +6,8 @@
 #include "QuadTreeAlgo.h"
 #include "SpatialHashGrid.h"
 #include "SpatialHashGridAlgo.h"
+#include "Loose_QuadTree.h"
+#include "Loose_QuadTreeAlgo.h"
 
 Application::Application(const char* title, uint32_t width, uint32_t height) : _width(width), _height(height){
     _renderer = new Renderer(title, _width, _height);
@@ -17,6 +19,8 @@ Application::Application(const char* title, uint32_t width, uint32_t height) : _
     _qTree = new QuadTree(*_worldBounds);
     // Spatial Hashmap - Taking a cell size of 40. Why? Cause then stacking one after the other, I can fit 2 balls of radius 10
     _spGrid = new SpatialHashmap(_width, _height, 40);
+    // Loose Quad Tree
+    _loose_qTree = new LooseQuadTree(*_worldBounds);
 
     SpawnEntities(_entities, 100, 1280, 720);
 }
@@ -26,6 +30,7 @@ Application::~Application(){
     delete _worldBounds;
     delete _qTree;
     delete _spGrid;
+    delete _loose_qTree;
 }
 
 /*
@@ -60,6 +65,7 @@ void Application::Run(){
 /*
 THIS IS FOR QUAD TREE TESTING
 */
+/*
 void Application::Run(){
     // Sample entity data here
     while(!WindowShouldClose()){
@@ -84,6 +90,36 @@ void Application::Run(){
         // This has to be modified later cause it always draws grid. And that is not okay. Grid drawing has to be the user's choice
         std::vector<AABB> activeBounds;
         _qTree->GetActiveBounds(activeBounds);
+        _renderer->Draw(_entities, activeBounds, colCheck, true);
+    }
+}
+*/
+
+// Alright so this is the run function for testing Loose Quad Trees
+void Application::Run(){
+    // Sample entity data here
+    while(!WindowShouldClose()){
+        float dt = GetFrameTime();
+        UpdateEntityPositions(_entities, 1280, 720, dt);
+
+        _loose_qTree->Clear();
+        for(Entity& e : _entities){
+            e._colliding = false;
+            _loose_qTree->Insert(&e);
+        }
+
+        int colCheck = 0;
+        // int collisionCount = RunBruteForceCollisionCheck(_entities, colCheck);
+        int collisionCount = RunLooseQuadTreeCollisionCheck(_entities, *_loose_qTree, colCheck);
+        //    __
+        //   | |
+        //   | |
+        // __| |__
+        // \ \/ /
+        //  \_/
+        // This has to be modified later cause it always draws grid. And that is not okay. Grid drawing has to be the user's choice
+        std::vector<AABB> activeBounds;
+        _loose_qTree->GetActiveBounds(activeBounds);
         _renderer->Draw(_entities, activeBounds, colCheck, true);
     }
 }

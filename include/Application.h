@@ -8,6 +8,7 @@
 
 class QuadTree;
 class SpatialHashmap;
+class LooseQuadTree;
 
 class Application{
 public:
@@ -24,10 +25,11 @@ private:
 
     // This is for Quad Tree Implementation
     QuadTree *_qTree;
-    SpatialHashmap *_spGrid;
     // This is for Spatial Hashmap
+    SpatialHashmap *_spGrid;
+    // This is The loose quad tree
+    LooseQuadTree *_loose_qTree;
     
-
     uint32_t _width, _height;
 };
 

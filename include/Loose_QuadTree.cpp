@@ -2,7 +2,7 @@
 
 // No notes / comments here since almost all of these functions are identical to those in QuadTree.cpp
 
-LooseQuadTree::LooseQuadTree(AABB boundary, int maxNodes = 10000) : _rootBoundary(boundary) {
+LooseQuadTree::LooseQuadTree(AABB boundary, int maxNodes) : _rootBoundary(boundary) {
     _nodes.resize(maxNodes);
     Clear();
 }
@@ -52,15 +52,15 @@ void LooseQuadTree::SubDivide(int nodeIdx){
 
     LooseQuadTreeNode& node = _nodes[nodeIdx];
     node._firstChild = childIdx;
-    node._subdivided = false;
+    node._subdivided = true;
 
     Vec2 h = {
         node._boundary._halfDimension.x / 2.0,
         node._boundary._halfDimension.y / 2.0
     };
     Vec2 c = {
-        node._boundary._center.x / 2.0,
-        node._boundary._center.y / 2.0
+        node._boundary._center.x,
+        node._boundary._center.y
     };
 
     // Now this is where it differs
