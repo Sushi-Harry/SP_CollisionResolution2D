@@ -4,3 +4,4 @@
 - [GeeksForGeeks](https://geeksforgeeks.org)
 - [How to Create Spatial Hash Maps for XPBD Self Collisions - Carmen's Graphics Blog](https://carmencincotti.com/2022-10-31/spatial-hash-maps-part-one/#what-is-a-spatial-hash-table)
 - [spatial-hashmap GitHub repository by adam-arthur](https://github.com/adam-arthur/spatial-hashmap)
+- [loose_quadtree GitHub repository by gerazo](https://github.com/gerazo/loose_quadtree/blob/master/src/include/LooseQuadtree.h)

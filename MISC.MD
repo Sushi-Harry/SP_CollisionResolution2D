@@ -61,3 +61,8 @@ __Next on the list:__ <br />
 2. Bounding Volume Hierarchy
 3. R-Trees
 4. Loose Quad Tree
+
+### 5 October, 2026
+Spatial Hashmaps are done. And my god does it work so much better now. The reduction in collision checks was pretty damn insane. It went from 2500 something on average using Quad Trees to literally just 250 checks on average using Spatial Hashmaps. And it was very fun to implement tbh. (Fun cause it was actually kinda easy)
+Will work on Loose Quad Trees now.
+Also added Loose Quad Tree Data Structure implementation. Need to implement the algo to use it. (Though it gonna be basically identical to the existing QuadTree algo)
