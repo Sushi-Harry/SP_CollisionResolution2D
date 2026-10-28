@@ -66,3 +66,13 @@ __Next on the list:__ <br />
 Spatial Hashmaps are done. And my god does it work so much better now. The reduction in collision checks was pretty damn insane. It went from 2500 something on average using Quad Trees to literally just 250 checks on average using Spatial Hashmaps. And it was very fun to implement tbh. (Fun cause it was actually kinda easy)
 Will work on Loose Quad Trees now.
 Also added Loose Quad Tree Data Structure implementation. Need to implement the algo to use it. (Though it gonna be basically identical to the existing QuadTree algo)
+
+### 28 October, 2026
+So I've been on a break cause of all the exams and lab evaluations and stuff. Finally free from all that for a couple of weeks so I'm gonna be working on BVHs now.
+Alright so it's midnight and all the data structures have been added with the addition of BVH. The results are amazing. Here is the data I gathered when I ran all the different algorithms: 
+| Data Structure | 100 Entities | 1,000 Entities |
+| --- | --- | --- |
+| Spatial Hash Grid | ~250 | ~4,000 |
+| BVH | ~1,700 | ~32,000 |
+| QuadTree | ~2,500 | ~44,000 |
+| Loose QuadTree (K=2.0) | ~7,200 | ~660,000 |

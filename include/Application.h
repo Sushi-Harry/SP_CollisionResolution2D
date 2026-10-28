@@ -9,6 +9,7 @@
 class QuadTree;
 class SpatialHashmap;
 class LooseQuadTree;
+class BoundingVolumeHierarchy;
 
 class Application{
 public:
@@ -29,7 +30,9 @@ private:
     SpatialHashmap *_spGrid;
     // This is The loose quad tree
     LooseQuadTree *_loose_qTree;
-    
+    // This is for BVH
+    BoundingVolumeHierarchy *_bvh;
+
     uint32_t _width, _height;
 };
 
