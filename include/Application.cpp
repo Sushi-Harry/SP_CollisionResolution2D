@@ -10,6 +10,7 @@
 #include "Loose_QuadTreeAlgo.h"
 #include "BVH.h"
 #include "BVHAlgo.h"
+#include <iostream>
 
 Application::Application(const char* title, uint32_t width, uint32_t height) : _width(width), _height(height){
     _renderer = new Renderer(title, _width, _height);
@@ -104,33 +105,33 @@ Application::~Application(){
 // Alright so this is the run function for testing Loose Quad Trees
 // Results: 1000 Entities: around 660k (yeah 660,000) collision checks
 // 100 Entities: ~7200 collision checks
-void Application::Run(){
-    // Sample entity data here
-    while(!WindowShouldClose()){
-        float dt = GetFrameTime();
-        UpdateEntityPositions(_entities, 1280, 720, dt);
+// void Application::Run(){
+//     // Sample entity data here
+//     while(!WindowShouldClose()){
+//         float dt = GetFrameTime();
+//         UpdateEntityPositions(_entities, 1280, 720, dt);
 
-        _loose_qTree->Clear();
-        for(Entity& e : _entities){
-            e._colliding = false;
-            _loose_qTree->Insert(&e);
-        }
+//         _loose_qTree->Clear();
+//         for(Entity& e : _entities){
+//             e._colliding = false;
+//             _loose_qTree->Insert(&e);
+//         }
 
-        int colCheck = 0;
-        // int collisionCount = RunBruteForceCollisionCheck(_entities, colCheck);
-        int collisionCount = RunLooseQuadTreeCollisionCheck(_entities, *_loose_qTree, colCheck);
-        //    __
-        //   | |
-        //   | |
-        // __| |__
-        // \ \/ /
-        //  \_/
-        // This has to be modified later cause it always draws grid. And that is not okay. Grid drawing has to be the user's choice
-        std::vector<AABB> activeBounds;
-        _loose_qTree->GetActiveBounds(activeBounds);
-        _renderer->Draw(_entities, activeBounds, colCheck, true);
-    }
-}
+//         int colCheck = 0;
+//         // int collisionCount = RunBruteForceCollisionCheck(_entities, colCheck);
+//         int collisionCount = RunLooseQuadTreeCollisionCheck(_entities, *_loose_qTree, colCheck);
+//         //    __
+//         //   | |
+//         //   | |
+//         // __| |__
+//         // \ \/ /
+//         //  \_/
+//         // This has to be modified later cause it always draws grid. And that is not okay. Grid drawing has to be the user's choice
+//         std::vector<AABB> activeBounds;
+//         _loose_qTree->GetActiveBounds(activeBounds);
+//         _renderer->Draw(_entities, activeBounds, colCheck, true);
+//     }
+// }
 
 
 // // This one is for testing the BVH implementation
@@ -158,3 +159,64 @@ void Application::Run(){
 //         _renderer->Draw(_entities, activeBounds, colCheck, true);
 //     }
 // }
+
+// This is the combined Application::Run() function.
+
+void Application::Run(){
+    CollisionSolver activeSolver = CollisionSolver::NONE;
+    bool showGrid = true;
+
+    while(!WindowShouldClose()){
+        if(IsKeyPressed(KEY_TAB)){
+            activeSolver = CollisionSolver::NONE;
+        }
+        // Running the gui function to select the solver if no solver is selected
+        if(activeSolver == CollisionSolver::NONE){
+            activeSolver = _renderer->DrawStartupMenu();
+            continue;
+        }
+
+        float dt = GetFrameTime();
+        UpdateEntityPositions(_entities, _width, _height, dt);
+        int colCheck = 0;
+        std::vector<AABB> activeBounds;
+
+        switch(activeSolver){
+            case CollisionSolver::NAIVE:{
+                RunBruteForceCollisionCheck(_entities, colCheck);
+                break;
+            }
+            case CollisionSolver::QUADTREE:{
+                _qTree->Clear();
+                for(Entity &e : _entities){ e._colliding = false; _qTree->Insert(&e); }
+                RunQuadTreeCollisionCheck(_entities, *_qTree, colCheck);
+                if(showGrid) _qTree->GetActiveBounds(activeBounds);
+                break;
+            }
+            case CollisionSolver::LOOSE_QUADTREE:{
+                _loose_qTree->Clear();
+                for(Entity &e : _entities) { e._colliding = false; _loose_qTree->Insert(&e); }
+                RunLooseQuadTreeCollisionCheck(_entities, *_loose_qTree, colCheck);
+                if(showGrid) _loose_qTree->GetActiveBounds(activeBounds);
+                break;
+            }
+            case CollisionSolver::SPATIAL_HASHING:{
+                _spGrid->Clear();
+                for(Entity &e : _entities){ e._colliding = false; _spGrid->Insert(&e); }
+                RunSpatialHashmapCollisionCheck(_entities, *_spGrid, colCheck);
+                break;
+            }
+            case CollisionSolver::BVH:{
+                std::vector<Entity*> bvhPointers;
+                bvhPointers.reserve(_entities.size());
+                for(Entity& e : _entities){ e._colliding = false; bvhPointers.push_back(&e);}
+                _bvh->Build(bvhPointers);
+                RunBVHCollisionCheck(_entities, *_bvh, colCheck);
+                if(showGrid) _bvh->GetActiveBounds(activeBounds);
+                break;
+            }
+            default: break;
+        }
+        _renderer->Draw(_entities, activeBounds, colCheck, showGrid);
+    }
+}

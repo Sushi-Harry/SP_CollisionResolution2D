@@ -43,4 +43,14 @@ struct Entity{
 
     bool _colliding = false;
 };
+
+// this is a helper enum for the GUI
+enum class CollisionSolver{
+    NONE = 0,
+    NAIVE,
+    QUADTREE,
+    LOOSE_QUADTREE,
+    SPATIAL_HASHING,
+    BVH
+};
 #endif
