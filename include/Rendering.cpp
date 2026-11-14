@@ -29,7 +29,7 @@ void Renderer::Draw(std::vector<Entity>& entities, std::vector<AABB>& treeBounds
     EndDrawing();
 }
 
-CollisionSolver Renderer::DrawStartupMenu(){
+CollisionSolver Renderer::DrawStartupMenu(int& entity_cnt, bool& showgrid){
     CollisionSolver selected = CollisionSolver::NONE;
 
     BeginDrawing();
@@ -37,22 +37,22 @@ CollisionSolver Renderer::DrawStartupMenu(){
 
         DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(BLACK, 0.4F));
         // Gui window Box data
-        float boxW =400.0F;
-        float boxH = 330.0F;
+        float boxW = GetScreenWidth() - 800.0F;
+        float boxH = GetScreenHeight() - 100.0F;
         float boxX = (GetScreenWidth() - boxW) / 2.0F;
         float boxY = (GetScreenHeight() - boxH) / 2.0F;
 
         // Style data
-        GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
+        GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
         GuiWindowBox({boxX, boxY, boxW, boxH}, "Select the Collision Solver");
 
         // Button Data
-        float bW = 300;
+        float bW = 330;
         float bH = 40;
-        float bX = boxX + (boxX - bW) / 2.0F;
-        float startY = boxY + 45.0F;
         float padding = 50.0F;
-
+        float bX = boxX + padding;
+        float startY = boxY + padding;
+        
         if(GuiButton({bX, startY + padding*0, bW, bH}, "1.) Naive Method -  O(n^2)"))
             selected = CollisionSolver::NAIVE;
         if(GuiButton({bX, startY + padding*1, bW, bH}, "2.) Standard QuadTree"))
@@ -63,7 +63,12 @@ CollisionSolver Renderer::DrawStartupMenu(){
             selected = CollisionSolver::SPATIAL_HASHING;
         if(GuiButton({bX, startY + padding*4, bW, bH}, "5.) Bounding Volume Hierarchy"))
             selected = CollisionSolver::BVH;
-        
+        float sliderVal = (float)entity_cnt;
+        GuiSlider({bX, (int)(startY + padding*5), bW, 20}, "50", "3000", &sliderVal, 50.0F, 3000.0F);
+        entity_cnt = ((int)(sliderVal / 50.0F)) * 50;
+        DrawText(TextFormat("Current Number Of Entities (N) : %d", entity_cnt), (int)bX, (int)(startY + padding*6), 20, DARKGRAY);
+
+        GuiCheckBox({bX, (int)(startY + padding*7), 20, 20}, "Draw Bounds / Grid", &showgrid);
         EndDrawing();
     return selected;
 }

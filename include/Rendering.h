@@ -10,7 +10,7 @@ public:
     ~Renderer();
 
     void Draw(std::vector<Entity>& entities, std::vector<AABB>& treeBounds, int checkCount, bool showGrid);
-    CollisionSolver DrawStartupMenu();
+    CollisionSolver DrawStartupMenu(int& entity_cnt, bool& showgrid);
 private:
     void DrawGUI(std::vector<Entity>& entities, std::vector<AABB>& treeBounds, int checkCount, bool showGrid);
 };

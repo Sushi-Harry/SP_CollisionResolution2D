@@ -165,6 +165,7 @@ Application::~Application(){
 void Application::Run(){
     CollisionSolver activeSolver = CollisionSolver::NONE;
     bool showGrid = true;
+    int targetEntityCount = (int)_entities.size();
 
     while(!WindowShouldClose()){
         if(IsKeyPressed(KEY_TAB)){
@@ -172,7 +173,15 @@ void Application::Run(){
         }
         // Running the gui function to select the solver if no solver is selected
         if(activeSolver == CollisionSolver::NONE){
-            activeSolver = _renderer->DrawStartupMenu();
+            activeSolver = _renderer->DrawStartupMenu(targetEntityCount, showGrid);
+            if(activeSolver != CollisionSolver::NONE){
+                if(targetEntityCount > (int)_entities.size()){
+                    _entities.clear();
+                    SpawnEntities(_entities, targetEntityCount - (int)_entities.size(), _width, _height);
+                }else if(targetEntityCount < (int)_entities.size()){
+                    _entities.resize(targetEntityCount);
+                }
+            }
             continue;
         }
 
