@@ -50,3 +50,10 @@ Requires a C++ compiler and __Raylib__
 make
 .\main.exe
 ```
+
+## AI Usage Disclosure
+I used AI for:
+1. Visual glitches I couldn't figure out by myself
+2.  Doing some research on what data structures are generally used for real world applications such as 3D Real Time Rendering software and other Simulation software.
+3. To fix some bugs that I couldn't fix myself. (Most of them ended up being simple typos and missing function calls that are totally my fault since I was )
+4. Making minor improvements to the logic in some functions here and there 
